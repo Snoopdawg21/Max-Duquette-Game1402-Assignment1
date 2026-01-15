@@ -5,6 +5,8 @@ public class PlayerControler : MonoBehaviour
 {
 
     [SerializeField] private float moveSpeed = 10f;
+    [SerializeField] private Vector2 minMaxSpeed;
+    [SerializeField] private float acceleration = 0.05f;
     [SerializeField] private float jumpForce = 15f;
     
     private Rigidbody2D rb;
@@ -55,29 +57,35 @@ public class PlayerControler : MonoBehaviour
         GroundCheck();
     }
 
+    void Update()
+    {
+        if (transform.position.y < -25f)
+        {
+            transform.position = new Vector3(0, 0, 0);
+        }
+    }
+
     void HandleMovement()
     {
         if (rb == null) return;
         
         rb.linearVelocityX = _horizontalInput * moveSpeed;
+
+        if (_horizontalInput != 0 && moveSpeed < minMaxSpeed.y && isGrounded)
+        {
+            moveSpeed += acceleration;
+        } else if (moveSpeed > minMaxSpeed.x)
+        {
+            moveSpeed -= acceleration;
+        }
+        
+        Debug.Log(moveSpeed);
     }
     
     void GroundCheck()
     {
         isGrounded = Physics2D.Raycast((Vector2)transform.position + startPointOffset, Vector2.down, groundCheckDistance,
             groundLayer);
-    }
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     private void OnDrawGizmos()

@@ -17,13 +17,11 @@ public class InputManager : MonoBehaviour
     void OnEnable()
     {
         inputActions.Player.Jump.performed += Jump;
-        //inputActions.Player.Horizontal.performed += HorizontalMovement;
     }
 
     void OnDisable()
     {
         inputActions.Player.Jump.performed -= Jump;
-        //inputActions.Player.Horizontal.performed -= HorizontalMovement;
     }
 
     void Jump(InputAction.CallbackContext ctx)
