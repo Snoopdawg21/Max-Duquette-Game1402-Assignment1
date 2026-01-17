@@ -13,6 +13,7 @@ public class EnemyController : MonoBehaviour
     private int direction;
 
     private bool isCharging;
+    private float chargeTimer;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -25,14 +26,10 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (isCharging == false)
-        {
-            LookForPlayer();
-        }
-        else
-        {
+        LookForPlayer();
+
+        if(isCharging) 
             ChargeAtPlayer();
-        }
         
         Debug.Log(isCharging);
     }
@@ -47,6 +44,13 @@ public class EnemyController : MonoBehaviour
         {
             direction = -1;
         }
+
+        if (transform.position.y < -30)
+        {
+            Destroy(gameObject);
+        }
+
+        chargeTimer++;
     }
 
     void LookForPlayer()
@@ -57,8 +61,12 @@ public class EnemyController : MonoBehaviour
     void ChargeAtPlayer()
     {
         if (rb == null) return;
-        
-        rb.linearVelocityX += direction * speed;
+
+        if (chargeTimer >= 500)
+        {
+            rb.linearVelocityX += direction * speed;
+            chargeTimer = 0;
+        }
     }
 
     void OnDrawGizmos()

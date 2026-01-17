@@ -12,6 +12,7 @@ public class PlayerControler : MonoBehaviour
     [SerializeField] private InputManager inputManager;
 
     [SerializeField] private Transform spawnPoint;
+    [SerializeField] private Transform deathZone;
 
     [Header("Wall Jump")]
     private bool isOnWall;
@@ -50,7 +51,7 @@ public class PlayerControler : MonoBehaviour
     {
         if (rb == null) return;
 
-        if (isGrounded || isOnWall || wallJumpTimer <= 0)
+        if (isGrounded || isOnWall || wallJumpTimer >= 0)
             rb.AddForceY(jumpForce, ForceMode2D.Impulse);
         
     }
@@ -69,7 +70,7 @@ public class PlayerControler : MonoBehaviour
 
     void Update()
     {
-        if (transform.position.y < -25f)
+        if (transform.position.y < deathZone.position.y)
         {
             transform.position = spawnPoint.position;
         }
