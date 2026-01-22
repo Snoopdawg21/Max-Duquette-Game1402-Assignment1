@@ -7,7 +7,7 @@ public class CameraManager : MonoBehaviour
     
     void FixedUpdate() 
     {
-        transform.position = new Vector3(player.position.x, player.position.y + 2, transform.position.z);
+        transform.position = new Vector3(player.position.x, player.position.y, transform.position.z);
     }
     
 }
