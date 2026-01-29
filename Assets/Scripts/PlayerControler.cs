@@ -4,6 +4,9 @@ using UnityEngine;
 public class PlayerControler : MonoBehaviour
 {
 
+    [SerializeField] private int health;
+    [SerializeField] private float immunityFrames;
+
     [SerializeField] private float moveSpeed = 10f;
     [SerializeField] private float jumpForce = 15f;
 
@@ -96,6 +99,8 @@ public class PlayerControler : MonoBehaviour
         {
             wallJumpCFrames--;
         }
+
+        immunityFrames++;
     }
 
     void HandleMovement()
@@ -137,9 +142,11 @@ public class PlayerControler : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Enemy")
+        if (collision.gameObject.CompareTag("Enemy") && immunityFrames > 60)
         {
-            transform.position = spawnPoint.position;
+            health--;
+            immunityFrames = 0;
+            Debug.Log(health);
         }
     }
 }
