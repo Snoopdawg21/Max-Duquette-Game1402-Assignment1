@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class PlayerControler : MonoBehaviour
@@ -16,6 +15,10 @@ public class PlayerControler : MonoBehaviour
 
     [SerializeField] private Transform spawnPoint;
     [SerializeField] private Transform deathZone;
+    
+    private float bounceForce = 5f;
+    private int bounceDirection;
+
     
     [Header("Accelerating")]
     [SerializeField] private float acceleration;
@@ -82,15 +85,19 @@ public class PlayerControler : MonoBehaviour
         HandleMovement();
         GroundCheck();
         WallCheck();
+        
+        if (transform.position.y < deathZone.position.y)
+            Death();
+        if (health <= 0)
+        {
+            Death();
+
+            health = 3;
+        }
     }
 
     void Update()
     {
-        if (transform.position.y < deathZone.position.y)
-        {
-            transform.position = spawnPoint.position;
-        }
-
         if (onRightWall == true)
         {
             wallJumpCFrames = 10;
@@ -101,6 +108,23 @@ public class PlayerControler : MonoBehaviour
         }
 
         immunityFrames++;
+        Debug.Log(health);
+    }
+
+    void TakeDamage()
+    {
+        health--;
+        immunityFrames = 0;
+    }
+
+    public void Heal(int regainedHealth)
+    {
+        health += regainedHealth;
+    }
+
+    void Death()
+    {
+        transform.position = spawnPoint.position;
     }
 
     void HandleMovement()
@@ -144,9 +168,19 @@ public class PlayerControler : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy") && immunityFrames > 60)
         {
-            health--;
-            immunityFrames = 0;
-            Debug.Log(health);
+            TakeDamage();
+
+            EnemyController enemy = collision.gameObject.GetComponent<EnemyController>();
+            
+            enemy.HitPlayer();
+            
+            if (collision.transform.position.x > transform.position.x)
+                bounceDirection = -1;
+            else
+                bounceDirection = 1;
+            
+            rb.AddForce(new Vector2(bounceForce * bounceDirection, bounceForce), ForceMode2D.Impulse);
+            collision.rigidbody.AddForce(new Vector2(bounceForce * (bounceDirection * -1), bounceForce), ForceMode2D.Impulse);
         }
     }
 }

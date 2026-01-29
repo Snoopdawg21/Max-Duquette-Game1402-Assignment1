@@ -9,6 +9,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float checkDistance;
     [SerializeField] private LayerMask player;
     [SerializeField] private Transform playerPos;
+    [SerializeField] private float attackCooldown;
 
     private int direction;
 
@@ -25,7 +26,8 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        LookForPlayer();
+        if(attackCooldown > 100)
+            LookForPlayer();
 
         if(isCharging) 
             ChargeAtPlayer();
@@ -46,6 +48,14 @@ public class EnemyController : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        attackCooldown++;
+    }
+
+    public void HitPlayer()
+    {
+        isCharging = false;
+        attackCooldown = 0;
     }
 
     void LookForPlayer()

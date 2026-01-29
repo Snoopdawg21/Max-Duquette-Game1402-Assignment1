@@ -2,9 +2,12 @@ using UnityEngine;
 
 public class Health : MonoBehaviour, ICollectable
 {
+    public GameObject player;
+    
     public void OnCollect()
     {
-        Debug.Log("in the stripped club, straight up healing it, and by it, haha, well, lets justr say, my healthbar");
+        PlayerControler controler = player.GetComponent<PlayerControler>();
+        controler.Heal(1);
         Destroy(gameObject);
     }
 }
