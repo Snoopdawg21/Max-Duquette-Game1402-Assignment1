@@ -119,7 +119,10 @@ public class PlayerControler : MonoBehaviour
 
     public void Heal(int regainedHealth)
     {
-        health += regainedHealth;
+        Debug.Log("healed it");
+        //int newHealth = health + regainedHealth;
+        //health = newHealth;
+        health++;
     }
 
     void Death()
