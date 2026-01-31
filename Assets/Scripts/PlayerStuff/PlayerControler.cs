@@ -3,11 +3,12 @@ using UnityEngine;
 public class PlayerControler : MonoBehaviour
 {
 
-    [SerializeField] private int health;
+    public int health;
     [SerializeField] private float immunityFrames;
 
     [SerializeField] private float moveSpeed = 10f;
     [SerializeField] private float jumpForce = 15f;
+    [SerializeField] private bool canDoubleJump;
 
     private Rigidbody2D rb;
 
@@ -15,34 +16,39 @@ public class PlayerControler : MonoBehaviour
 
     [SerializeField] private Transform spawnPoint;
     [SerializeField] private Transform deathZone;
-    
+
     private float bounceForce = 5f;
     private int bounceDirection;
 
-    
-    [Header("Accelerating")]
-    [SerializeField] private float acceleration;
+
+    [Header("Accelerating")] [SerializeField]
+    private float acceleration;
+
     [SerializeField] private float deceleration;
     [SerializeField] private float airAcceleration;
     [SerializeField] private float airDeceleration;
     private float newAcceleration;
-    
-    [Header("WallJumping")]
-    [SerializeField] private float wallCheckDistance;
-    
+
+    [Header("WallJumping")] [SerializeField]
+    private float wallCheckDistance;
+
     private bool onRightWall;
     private bool onLeftWall;
 
-    private float wallJumpCFrames;
-
-   [Header("GroundCheck")]
+    [Header("GroundCheck")] 
     [SerializeField] private Vector2 startPointOffset;
+
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float groundCheckDistance;
-    
+
+    private float cFrames;
+
     private bool isGrounded;
 
     private float _horizontalInput;
+    
+    [Header("Game Manager")]
+    [SerializeField] private GameObject gameManager;
 
     void Awake()
     {
@@ -51,28 +57,49 @@ public class PlayerControler : MonoBehaviour
 
     void OnEnable()
     {
-        inputManager.OnJump += HandleJump;
+        inputManager.OnJump += JumpPressed;
         inputManager.OnHorizontal += HandleMove;
     }
 
     void OnDisable()
     {
-        inputManager.OnJump -= HandleJump;
+        inputManager.OnJump -= JumpPressed;
         inputManager.OnHorizontal -= HandleMove;
+    }
+
+    void JumpPressed()
+    {
+        if (rb == null) return;
+
+        if (!isGrounded && !onRightWall && !onLeftWall)
+            cFrames = 0;
+        
+        HandleJump();
     }
 
     void HandleJump()
     {
-        if (rb == null) return;
-
         if (isGrounded)
+        {
             rb.AddForceY(jumpForce, ForceMode2D.Impulse);
-
-        if (onRightWall)
+            cFrames += 12;
+        }
+        else if (onRightWall)
+        {
             rb.AddForce(new Vector2(-jumpForce / 2,  jumpForce), ForceMode2D.Impulse);
-        
-        if (onLeftWall)
+            cFrames += 12;
+        }
+        else if (onLeftWall)
+        {
             rb.AddForce(new Vector2(jumpForce / 2,  jumpForce), ForceMode2D.Impulse);
+            cFrames += 12;
+        }
+        else if (canDoubleJump)
+        {
+            rb.AddForceY(jumpForce, ForceMode2D.Impulse);
+            cFrames += 12;
+            canDoubleJump = false;
+        }
     }
 
     void HandleMove(float direction)
@@ -89,44 +116,43 @@ public class PlayerControler : MonoBehaviour
         if (transform.position.y < deathZone.position.y)
             Death();
         if (health <= 0)
-        {
             Death();
-
-            health = 3;
-        }
     }
 
     void Update()
     {
-        if (onRightWall == true)
-        {
-            wallJumpCFrames = 10;
-        }
-        else
-        {
-            wallJumpCFrames--;
-        }
-
+        if (cFrames <= 10)
+            HandleJump();
+        
+        cFrames++;
         immunityFrames++;
-        Debug.Log(health);
+
+        if (isGrounded || onLeftWall || onRightWall)
+            canDoubleJump = true;
+        
+        Debug.Log(canDoubleJump);
     }
 
     void TakeDamage()
     {
         health--;
         immunityFrames = 0;
+        
+        GameManager gm = gameManager.GetComponent<GameManager>();
+        gm.DisplayHealth();
     }
 
     public void Heal(int regainedHealth)
     {
-        Debug.Log("healed it");
-        //int newHealth = health + regainedHealth;
-        //health = newHealth;
-        health++;
+        health += regainedHealth;
+        
+        GameManager gm = gameManager.GetComponent<GameManager>();
+        gm.DisplayHealth();
     }
 
     void Death()
     {
+        health = 3;
         transform.position = spawnPoint.position;
     }
 

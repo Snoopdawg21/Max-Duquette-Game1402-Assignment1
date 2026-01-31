@@ -4909,6 +4909,7 @@ GameObject:
   - component: {fileID: 3824455498582764541}
   - component: {fileID: 2550497656209115656}
   - component: {fileID: 4818920838763280922}
+  - component: {fileID: 4166344171289109033}
   m_Layer: 7
   m_Name: Player
   m_TagString: player
@@ -5053,19 +5054,21 @@ MonoBehaviour:
   immunityFrames: 20
   moveSpeed: 20
   jumpForce: 10
+  canDoubleJump: 0
   inputManager: {fileID: 0}
   spawnPoint: {fileID: 0}
   deathZone: {fileID: 0}
-  acceleration: 15
-  deceleration: 50
-  airAcceleration: 10
-  airDeceleration: 30
+  acceleration: 20
+  deceleration: 55
+  airAcceleration: 15
+  airDeceleration: 50
   wallCheckDistance: 0.35
   startPointOffset: {x: 0, y: -0.46}
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
   groundCheckDistance: 0.18
+  gameManager: {fileID: 0}
 --- !u!114 &3824455498582764541
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5103,7 +5106,7 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
@@ -5119,3 +5122,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ba7cacfe076c1e45a6ce6e84c26788d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Collector
+--- !u!114 &4166344171289109033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2665254430912465267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d2890abb710fac47a572f3ed504ee14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraOperator

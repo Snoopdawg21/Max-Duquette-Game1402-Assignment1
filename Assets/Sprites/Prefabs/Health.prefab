@@ -141,4 +141,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ae8aba0ca5416349911780dc78e88fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
-  player: {fileID: 2665254430912465267, guid: 9697aeeaf17b33341bbc696a97b88a1c, type: 3}
+  player: {fileID: 0}

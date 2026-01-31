@@ -10,6 +10,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private LayerMask player;
     [SerializeField] private Transform playerPos;
     [SerializeField] private float attackCooldown;
+    [SerializeField] private Transform deathZone;
 
     private int direction;
 
@@ -44,10 +45,8 @@ public class EnemyController : MonoBehaviour
             direction = -1;
         }
 
-        if (transform.position.y < -30)
-        {
+        if (transform.position.y < deathZone.position.y)
             Destroy(gameObject);
-        }
 
         attackCooldown++;
     }
