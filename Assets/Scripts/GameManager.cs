@@ -5,7 +5,6 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private int score;
     [SerializeField] private GameObject playerObject;
-    [SerializeField] private TMP_Text healthText;
     
     void Start()
     {
@@ -22,7 +21,17 @@ public class GameManager : MonoBehaviour
     public void DisplayHealth()
     {
         PlayerControler player = playerObject.GetComponent<PlayerControler>();
+        
+    }
 
-        healthText.text = $"Health: {player.health}";
+    public void PlusSpeed()
+    {
+        PlayerControler player = playerObject.GetComponent<PlayerControler>();
+
+        if (player == null) return;
+
+        player.moveSpeed += 2;
+        player.acceleration += 5;
+        player.deceleration += 5;
     }
 }

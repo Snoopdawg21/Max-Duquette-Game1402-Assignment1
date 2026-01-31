@@ -7,6 +7,7 @@ public class InputManager : MonoBehaviour
     
     public System.Action OnJump;
     public System.Action<float> OnHorizontal;
+    public System.Action OnInteract;
 
     private void Awake()
     {
@@ -17,16 +18,23 @@ public class InputManager : MonoBehaviour
     void OnEnable()
     {
         inputActions.Player.Jump.performed += Jump;
+        inputActions.Player.Interact.performed += Interact;
     }
 
     void OnDisable()
     {
         inputActions.Player.Jump.performed -= Jump;
+        inputActions.Player.Interact.performed -= Interact;
     }
 
     void Jump(InputAction.CallbackContext ctx)
     {
         OnJump?.Invoke();
+    }
+
+    void Interact(InputAction.CallbackContext ctx)
+    {
+        OnInteract?.Invoke();
     }
 
     void HorizontalMovement()

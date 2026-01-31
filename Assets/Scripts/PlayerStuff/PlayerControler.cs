@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerControler : MonoBehaviour
@@ -6,7 +7,7 @@ public class PlayerControler : MonoBehaviour
     public int health;
     [SerializeField] private float immunityFrames;
 
-    [SerializeField] private float moveSpeed = 10f;
+    public float moveSpeed = 10f;
     [SerializeField] private float jumpForce = 15f;
     [SerializeField] private bool canDoubleJump;
 
@@ -19,18 +20,16 @@ public class PlayerControler : MonoBehaviour
 
     private float bounceForce = 5f;
     private int bounceDirection;
-
-
-    [Header("Accelerating")] [SerializeField]
-    private float acceleration;
-
-    [SerializeField] private float deceleration;
-    [SerializeField] private float airAcceleration;
-    [SerializeField] private float airDeceleration;
+    
+    [Header("Accelerating")] 
+    public float acceleration;
+    public float deceleration;
+    public float airAcceleration;
+    public float airDeceleration;
     private float newAcceleration;
 
-    [Header("WallJumping")] [SerializeField]
-    private float wallCheckDistance;
+    [Header("WallJumping")] 
+    [SerializeField] private float wallCheckDistance;
 
     private bool onRightWall;
     private bool onLeftWall;
@@ -50,6 +49,8 @@ public class PlayerControler : MonoBehaviour
     [Header("Game Manager")]
     [SerializeField] private GameObject gameManager;
 
+    [SerializeField] private GameObject shopManager;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -59,12 +60,29 @@ public class PlayerControler : MonoBehaviour
     {
         inputManager.OnJump += JumpPressed;
         inputManager.OnHorizontal += HandleMove;
+        inputManager.OnInteract += Interaction;
     }
 
     void OnDisable()
     {
         inputManager.OnJump -= JumpPressed;
         inputManager.OnHorizontal -= HandleMove;
+        inputManager.OnInteract -= Interaction;
+
+        Shop shop = shopManager.GetComponent<Shop>();
+
+        if (shop == null) return;
+
+        shop.ButtonUp();
+    }
+
+    void Interaction()
+    {
+        Shop shop = shopManager.GetComponent<Shop>();
+
+        if (shop == null) return;
+        
+        shop.ButtonPress();
     }
 
     void JumpPressed()
@@ -137,17 +155,11 @@ public class PlayerControler : MonoBehaviour
     {
         health--;
         immunityFrames = 0;
-        
-        GameManager gm = gameManager.GetComponent<GameManager>();
-        gm.DisplayHealth();
     }
 
     public void Heal(int regainedHealth)
     {
         health += regainedHealth;
-        
-        GameManager gm = gameManager.GetComponent<GameManager>();
-        gm.DisplayHealth();
     }
 
     void Death()
