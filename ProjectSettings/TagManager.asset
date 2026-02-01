@@ -9,6 +9,7 @@ TagManager:
   - Coin
   - Health
   - player
+  - Shop
   layers:
   - Default
   - TransparentFX
