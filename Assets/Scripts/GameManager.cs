@@ -5,11 +5,27 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private int score;
     [SerializeField] private GameObject playerObject;
+    [SerializeField] private InputManager inputManager;
+    [SerializeField] private GameObject pauseScreen;
     
     void Start()
     {
         DisplayHealth();
-        
+    }
+
+    void OnEnable()
+    {
+        inputManager.OnPauseGame += PauseGame;
+    }
+
+    void OnDisable()
+    {
+        inputManager.OnPauseGame -= PauseGame;
+    }
+
+    void PauseGame()
+    {
+        Debug.Log("fucking semen");
     }
 
     public void IncreaseScore(int scoreValue) 

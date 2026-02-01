@@ -49,8 +49,6 @@ public class PlayerControler : MonoBehaviour
     [Header("Game Manager")]
     [SerializeField] private GameObject gameManager;
 
-    [SerializeField] private GameObject shopManager;
-
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -59,30 +57,13 @@ public class PlayerControler : MonoBehaviour
     void OnEnable()
     {
         inputManager.OnJump += JumpPressed;
-        inputManager.OnHorizontal += HandleMove;
-        inputManager.OnInteract += Interaction;
+        inputManager.OnHorizontal += HandleMove;        
     }
 
     void OnDisable()
     {
         inputManager.OnJump -= JumpPressed;
-        inputManager.OnHorizontal -= HandleMove;
-        inputManager.OnInteract -= Interaction;
-
-        Shop shop = shopManager.GetComponent<Shop>();
-
-        if (shop == null) return;
-
-        shop.ButtonUp();
-    }
-
-    void Interaction()
-    {
-        Shop shop = shopManager.GetComponent<Shop>();
-
-        if (shop == null) return;
-        
-        shop.ButtonPress();
+        inputManager.OnHorizontal -= HandleMove;        
     }
 
     void JumpPressed()
@@ -147,8 +128,6 @@ public class PlayerControler : MonoBehaviour
 
         if (isGrounded || onLeftWall || onRightWall)
             canDoubleJump = true;
-        
-        Debug.Log(canDoubleJump);
     }
 
     void TakeDamage()

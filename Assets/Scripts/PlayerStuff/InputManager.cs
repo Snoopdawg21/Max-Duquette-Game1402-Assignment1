@@ -19,12 +19,14 @@ public class InputManager : MonoBehaviour
     {
         inputActions.Player.Jump.performed += Jump;
         inputActions.Player.Interact.performed += Interact;
+        inputActions.Player.Pause.performed += PauseGame;
     }
 
     void OnDisable()
     {
         inputActions.Player.Jump.performed -= Jump;
         inputActions.Player.Interact.performed -= Interact;
+        inputActions.Player.Pause.performed -= PauseGame;
     }
 
     void Jump(InputAction.CallbackContext ctx)
@@ -35,6 +37,11 @@ public class InputManager : MonoBehaviour
     void Interact(InputAction.CallbackContext ctx)
     {
         OnInteract?.Invoke();
+    }
+
+    void PauseGame(InputAction.CallbackContext ctx)
+    {
+        OnPauseGame?.Invoke();
     }
 
     void HorizontalMovement()

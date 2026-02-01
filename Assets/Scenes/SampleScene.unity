@@ -5842,7 +5842,7 @@ GameObject:
   - component: {fileID: 622025806}
   m_Layer: 0
   m_Name: Shop
-  m_TagString: Untagged
+  m_TagString: Shop
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5954,7 +5954,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3b1b5cd1809eb94987bf6a19d92af37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Shop
-  shopObject: {fileID: 1024511267}
+  clicked: 0
+  shopMenu: {fileID: 1024511267}
 --- !u!1 &639852493 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2665254430912465267, guid: 9697aeeaf17b33341bbc696a97b88a1c, type: 3}
@@ -10902,6 +10903,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   score: 0
   playerObject: {fileID: 2665254430912465267, guid: 9697aeeaf17b33341bbc696a97b88a1c, type: 3}
+  inputManager: {fileID: 0}
+  pauseScreen: {fileID: 0}
 --- !u!1001 &1468986505
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16391,10 +16394,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1451878310}
     - target: {fileID: 2367734755944755511, guid: 9697aeeaf17b33341bbc696a97b88a1c, type: 3}
-      propertyPath: shopManager
-      value: 
-      objectReference: {fileID: 622025802}
-    - target: {fileID: 2367734755944755511, guid: 9697aeeaf17b33341bbc696a97b88a1c, type: 3}
       propertyPath: inputManager
       value: 
       objectReference: {fileID: 1682493325}
@@ -16442,6 +16441,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8776917285520607182, guid: 9697aeeaf17b33341bbc696a97b88a1c, type: 3}
+      propertyPath: shopObject
+      value: 
+      objectReference: {fileID: 622025802}
+    - target: {fileID: 8776917285520607182, guid: 9697aeeaf17b33341bbc696a97b88a1c, type: 3}
+      propertyPath: inputManager
+      value: 
+      objectReference: {fileID: 1682493325}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
