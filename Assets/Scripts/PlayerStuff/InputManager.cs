@@ -8,6 +8,7 @@ public class InputManager : MonoBehaviour
     public System.Action OnJump;
     public System.Action<float> OnHorizontal;
     public System.Action OnInteract;
+    public System.Action OnPauseGame;
 
     private void Awake()
     {
@@ -19,14 +20,14 @@ public class InputManager : MonoBehaviour
     {
         inputActions.Player.Jump.performed += Jump;
         inputActions.Player.Interact.performed += Interact;
-        inputActions.Player.Pause.performed += PauseGame;
+        inputActions.Player.PauseGame.performed += Pause;
     }
 
     void OnDisable()
     {
         inputActions.Player.Jump.performed -= Jump;
         inputActions.Player.Interact.performed -= Interact;
-        inputActions.Player.Pause.performed -= PauseGame;
+        inputActions.Player.PauseGame.performed -= Pause;
     }
 
     void Jump(InputAction.CallbackContext ctx)
@@ -39,7 +40,7 @@ public class InputManager : MonoBehaviour
         OnInteract?.Invoke();
     }
 
-    void PauseGame(InputAction.CallbackContext ctx)
+    void Pause(InputAction.CallbackContext ctx)
     {
         OnPauseGame?.Invoke();
     }

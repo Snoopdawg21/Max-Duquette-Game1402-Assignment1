@@ -5054,21 +5054,24 @@ MonoBehaviour:
   health: 3
   immunityFrames: 20
   moveSpeed: 20
-  jumpForce: 10
-  canDoubleJump: 0
+  jumpForce: 8
+  boughtDoubleJump: 0
   inputManager: {fileID: 0}
   spawnPoint: {fileID: 0}
   deathZone: {fileID: 0}
-  acceleration: 20
-  deceleration: 55
-  airAcceleration: 15
-  airDeceleration: 50
-  wallCheckDistance: 0.35
+  acceleration: 15
+  deceleration: 50
+  airAcceleration: 5
+  airDeceleration: 25
+  wallCheckDistance: 0.3
+  wallCheckOffset: {x: 0.05, y: 0}
   startPointOffset: {x: 0, y: -0.46}
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  groundCheckDistance: 0.18
+  groundCheckRadius: 0.25
+  cFrames: 0
+  cayoteTime: 0
   gameManager: {fileID: 0}
 --- !u!114 &3824455498582764541
 MonoBehaviour:
@@ -5108,8 +5111,8 @@ Rigidbody2D:
     serializedVersion: 2
     m_Bits: 0
   m_Interpolate: 1
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_SleepingMode: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!114 &4818920838763280922
 MonoBehaviour:
@@ -5149,3 +5152,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShopManager
   inputManager: {fileID: 0}
   shopObject: {fileID: 0}
+  shop: {fileID: 0}

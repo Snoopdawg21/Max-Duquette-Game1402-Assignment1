@@ -1,17 +1,22 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Shop : MonoBehaviour, IInteractables
 {
-    public bool clicked;
+    [FormerlySerializedAs("clicked")] public bool inZone;
+    private bool clicked;
     public GameObject shopMenu;
     
     public void Interact()
     {
-        if(clicked)
-            shopMenu.SetActive(true);
-        else
-            shopMenu.SetActive(false);
+        clicked = !clicked;
         
-        Debug.Log(clicked);
+        if (inZone && clicked)
+        {
+            shopMenu.SetActive(true);
+        } else
+        {
+            shopMenu.SetActive(false);
+        }
     }
 }

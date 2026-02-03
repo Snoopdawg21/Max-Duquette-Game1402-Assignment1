@@ -8,8 +8,9 @@ public class PlayerControler : MonoBehaviour
     [SerializeField] private float immunityFrames;
 
     public float moveSpeed = 10f;
-    [SerializeField] private float jumpForce = 15f;
-    [SerializeField] private bool canDoubleJump;
+    public float jumpForce = 15f;
+    public bool boughtDoubleJump;
+    private bool canDoubleJump;
 
     private Rigidbody2D rb;
 
@@ -31,6 +32,8 @@ public class PlayerControler : MonoBehaviour
     [Header("WallJumping")] 
     [SerializeField] private float wallCheckDistance;
 
+    [SerializeField] private Vector2 wallCheckOffset;
+
     private bool onRightWall;
     private bool onLeftWall;
 
@@ -38,10 +41,11 @@ public class PlayerControler : MonoBehaviour
     [SerializeField] private Vector2 startPointOffset;
 
     [SerializeField] private LayerMask groundLayer;
-    [SerializeField] private float groundCheckDistance;
+    [SerializeField] private float groundCheckRadius;
 
-    private float cFrames;
-
+    [SerializeField] private float cFrames;
+    [SerializeField] private float cayoteTime;
+    
     private bool isGrounded;
 
     private float _horizontalInput;
@@ -82,21 +86,31 @@ public class PlayerControler : MonoBehaviour
         {
             rb.AddForceY(jumpForce, ForceMode2D.Impulse);
             cFrames += 12;
+            cayoteTime += 12;
         }
         else if (onRightWall)
         {
             rb.AddForce(new Vector2(-jumpForce / 2,  jumpForce), ForceMode2D.Impulse);
             cFrames += 12;
+            cayoteTime += 12;
         }
         else if (onLeftWall)
         {
             rb.AddForce(new Vector2(jumpForce / 2,  jumpForce), ForceMode2D.Impulse);
             cFrames += 12;
+            cayoteTime += 12;
         }
-        else if (canDoubleJump)
+        else if (cayoteTime > 0 && cayoteTime <= 0.2f)
         {
             rb.AddForceY(jumpForce, ForceMode2D.Impulse);
             cFrames += 12;
+            cayoteTime += 12;
+        }
+        else if (canDoubleJump && boughtDoubleJump)
+        {
+            rb.AddForceY(jumpForce, ForceMode2D.Impulse);
+            cFrames += 12;
+            cayoteTime += 12;
             canDoubleJump = false;
         }
     }
@@ -120,14 +134,21 @@ public class PlayerControler : MonoBehaviour
 
     void Update()
     {
-        if (cFrames <= 10)
+        if (cFrames <= 0.2f)
             HandleJump();
         
-        cFrames++;
+        cFrames += 1 * Time.deltaTime;
+        cayoteTime += 1 * Time.deltaTime;
         immunityFrames++;
 
-        if (isGrounded || onLeftWall || onRightWall)
+        if (onLeftWall || onRightWall)
             canDoubleJump = true;
+
+        if (isGrounded)
+        {
+            canDoubleJump = true;
+            cayoteTime = 0;
+        }
     }
 
     void TakeDamage()
@@ -141,7 +162,7 @@ public class PlayerControler : MonoBehaviour
         health += regainedHealth;
     }
 
-    void Death()
+    public void Death()
     {
         health = 3;
         transform.position = spawnPoint.position;
@@ -167,21 +188,24 @@ public class PlayerControler : MonoBehaviour
     
     void GroundCheck()
     {
-        isGrounded = Physics2D.Raycast((Vector2)transform.position + startPointOffset, Vector2.down, groundCheckDistance,
-            groundLayer);
+        isGrounded = Physics2D.CircleCast((Vector2)transform.position + startPointOffset, groundCheckRadius, Vector2.down, 0.1f, groundLayer);
     }
     
     void WallCheck() 
     {
-        onRightWall = Physics2D.Raycast((Vector2)transform.position, Vector2.right,  wallCheckDistance,  groundLayer);
-        onLeftWall = Physics2D.Raycast((Vector2)transform.position, Vector2.left,  wallCheckDistance,  groundLayer);
+        //onRightWall = Physics2D.Raycast((Vector2)transform.position, Vector2.right,  wallCheckDistance,  groundLayer);
+        onRightWall = Physics2D.CircleCast((Vector2)transform.position + wallCheckOffset, groundCheckRadius, Vector2.right, 0.1f, groundLayer);
+        //onLeftWall = Physics2D.Raycast((Vector2)transform.position, Vector2.left,  wallCheckDistance,  groundLayer);
+        onLeftWall = Physics2D.CircleCast((Vector2)transform.position - wallCheckOffset, groundCheckRadius, Vector2.left, 0.1f, groundLayer);
     }
 
     private void OnDrawGizmos()
     {
-        Debug.DrawLine((Vector2)transform.position + startPointOffset, (Vector2)transform.position + startPointOffset + Vector2.down * groundCheckDistance, isGrounded? Color.green:Color.red);
-        Debug.DrawLine((Vector2)transform.position, (Vector2)transform.position + Vector2.right * wallCheckDistance, onRightWall? Color.green:Color.red);
-        Debug.DrawLine((Vector2)transform.position, (Vector2)transform.position + Vector2.left * wallCheckDistance, onLeftWall? Color.green:Color.red);
+        Gizmos.DrawWireSphere((Vector2)transform.position + startPointOffset, groundCheckRadius);
+        //Debug.DrawLine((Vector2)transform.position, (Vector2)transform.position + Vector2.right * wallCheckDistance, onRightWall? Color.green:Color.red);
+        //Debug.DrawLine((Vector2)transform.position, (Vector2)transform.position + Vector2.left * wallCheckDistance, onLeftWall? Color.green:Color.red);
+        Gizmos.DrawWireSphere((Vector2)transform.position + wallCheckOffset, wallCheckDistance);
+        Gizmos.DrawWireSphere((Vector2)transform.position - wallCheckOffset, wallCheckDistance);
     }
 
     void OnCollisionEnter2D(Collision2D collision)
