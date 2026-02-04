@@ -16,18 +16,27 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Left",
-                    "type": "Button",
+                    "name": "Horizontal",
+                    "type": "Value",
                     "id": "c737d130-f11d-489c-9480-6c69c26da9a4",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Interact",
+                    "type": "Button",
+                    "id": "1fe67af8-3b8e-409e-9b4e-f8f196fa99c3",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Right",
+                    "name": "PauseGame",
                     "type": "Button",
-                    "id": "c4a04130-cdf9-4f4b-b4e7-4227fb832041",
+                    "id": "1015bc30-5f5d-45a6-bbe4-d517da681bd2",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -49,7 +58,7 @@
                 {
                     "name": "",
                     "id": "1630f6a9-25e7-4463-98fc-bfb447813ef8",
-                    "path": "<NimbusGamepadHid>/buttonWest",
+                    "path": "<SwitchProControllerHID>/buttonEast",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -58,46 +67,112 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "",
-                    "id": "8b1e458d-04b6-4aef-9195-a89a34e62da9",
+                    "name": "1D Axis",
+                    "id": "ab5caf83-261f-4a72-9f2d-cc4942c3d912",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Horizontal",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "3f080f47-2ced-43de-9cb7-6c999e6b5710",
                     "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Left",
+                    "action": "Horizontal",
                     "isComposite": false,
-                    "isPartOfComposite": false
+                    "isPartOfComposite": true
                 },
                 {
-                    "name": "",
-                    "id": "48d72523-a111-48b3-bd0a-5365f1273e0a",
-                    "path": "<Joystick>/stick/left",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Left",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "8c5dd9d4-820c-4c34-b93c-299bae485b5f",
+                    "name": "positive",
+                    "id": "6a1a8816-3d48-4e35-840a-4007c9152027",
                     "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Right",
+                    "action": "Horizontal",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "1D Axis",
+                    "id": "2101e02a-aac4-4404-a2a8-bcf51c67bfb3",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Horizontal",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "632caba1-f749-4ad4-a491-e9189f3dd6af",
+                    "path": "<SwitchProControllerHID>/leftStick/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Horizontal",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "b9cce36a-d780-461e-b3b1-f4631dbeda37",
+                    "path": "<SwitchProControllerHID>/leftStick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Horizontal",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "dedd5b60-aa64-4f5b-9f1c-443840d6ded3",
+                    "path": "<SwitchProControllerHID>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "ef6f8be4-05e2-484f-b7fb-5e64fd4ef01f",
-                    "path": "<Joystick>/stick/right",
+                    "id": "23179c8c-c675-401b-9ca4-bc5ceee46bfb",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Right",
+                    "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "99c3efb8-4c6c-4110-a737-258a389576c3",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PauseGame",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6540246e-4257-4070-8b34-bd72bb1a8f91",
+                    "path": "<SwitchProControllerHID>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PauseGame",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
