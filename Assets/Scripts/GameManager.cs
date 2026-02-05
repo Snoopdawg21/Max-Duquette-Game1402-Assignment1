@@ -57,7 +57,9 @@ public class GameManager : MonoBehaviour
         else
             secondToggle = "";
 
-        timerText.text = $"{minuteToggle}{minutes}:{secondToggle}{timer}";
+        float seconds = Mathf.Floor(timer);
+
+        timerText.text = $"{minuteToggle}{minutes}:{secondToggle}{seconds}";
         timer += Time.deltaTime;
 
         if (timer >= 60)
